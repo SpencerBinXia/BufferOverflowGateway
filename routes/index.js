@@ -8,53 +8,55 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/adduser', function(req, res, next) {
-    request.post({url:'usersserv', form:req.body}, function(err, httpResponse, body){
+    request.post({url:'http://localhost:5000/adduser', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            console.log("adduser failed");
+            res.send(JSON.parse(APIres.body));
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
 
 router.post('/login', function(req, res, next) {
-    request.post({url:'usersserv', form:req.body}, function(err, httpResponse, body){
+    request.post({url:'http://localhost:5000/login', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            console.log("login failed");
+            res.send(JSON.parse(APIres.body));
         }
         else
         {
-            console.log("status: " + httpResponse);
+            req.session.username = req.body.username;
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
 
 router.post('/logout', function(req, res, next) {
-    request.post({url:'usersserv', form:req.body}, function(err, httpResponse, body){
+    request.post({url:'http://localhost:5000/logout', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            console.log("logout failed");
+            res.send(JSON.parse(APIres.body));
         }
         else
         {
-            console.log("status: " + httpResponse);
+            req.session.username = undefined;
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
 
 router.post('/verify', function(req, res, next) {
-    request.post({url:'usersserv', form:req.body}, function(err, httpResponse, body){
+    request.post({url:'http://localhost:5000/verify', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            console.log("verify failed");
+            res.send(JSON.parse(APIres.body));
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
