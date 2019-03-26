@@ -188,6 +188,7 @@ router.post('/search', function(req, res, next) {
         res.send({status: "error", error: "search limit cannot be greater than 100"});
         return;
     }
+    console.log(searchInfo.limit);
     var headersOpt = {
         "content-type": "application/json"
     };
