@@ -142,14 +142,17 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
 });
 
 router.get('/questions/:id/answers', function(req, res, next) {
-    request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
+    var getAns = req.body;
+    getAns.id = req.params.id;
+    request.get({url:'http://localhost:6000/answers/get', form: getAns}, function(err, APIres, body){
         if (err)
         {
-            console.log("get ques answers failed");
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
