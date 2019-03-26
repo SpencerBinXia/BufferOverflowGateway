@@ -11,7 +11,8 @@ router.post('/adduser', function(req, res, next) {
     request.post({url:'http://localhost:5000/adduser', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send(JSON.parse(APIres.body));
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
@@ -24,7 +25,8 @@ router.post('/login', function(req, res, next) {
     request.post({url:'http://localhost:5000/login', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send(JSON.parse(APIres.body));
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
@@ -35,10 +37,16 @@ router.post('/login', function(req, res, next) {
 });
 
 router.post('/logout', function(req, res, next) {
+    if (req.session.username == undefined)
+    {
+        res.send({status: "ERROR", error: "Can't logout with no user in session"});
+        return;
+    }
     request.post({url:'http://localhost:5000/logout', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send(JSON.parse(APIres.body));
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
@@ -52,7 +60,8 @@ router.post('/verify', function(req, res, next) {
     request.post({url:'http://localhost:5000/verify', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send(JSON.parse(APIres.body));
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
@@ -62,19 +71,33 @@ router.post('/verify', function(req, res, next) {
 });
 
 router.post('/questions/add', function(req, res, next) {
-    request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
+    if (req.session.username == undefined)
+    {
+        res.send({status: "ERROR", error: "Can't add question with no logged in user"});
+        return;
+    }
+    var quesFields = req.body;
+    quesFields.username = req.session.username;
+    console.log(quesFields.username);
+    console.log(quesFields.tags);
+    quesFields.tags = JSON.stringify(req.body.tags);
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/questions/add', form: quesFields}, function(err, APIres, body){
         if (err)
         {
-            console.log("add questions failed");
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
 
-router.get('/questions/{id}', function(req, res, next) {
+router.get('/questions/:id', function(req, res, next) {
     request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
         if (err)
         {
@@ -87,7 +110,7 @@ router.get('/questions/{id}', function(req, res, next) {
     });
 });
 
-router.post('/questions/{id}/answers/add', function(req, res, next) {
+router.post('/questions/:id/answers/add', function(req, res, next) {
     request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
         if (err)
         {
@@ -100,7 +123,7 @@ router.post('/questions/{id}/answers/add', function(req, res, next) {
     });
 });
 
-router.get('/questions/{id}/answers', function(req, res, next) {
+router.get('/questions/:id/answers', function(req, res, next) {
     request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
         if (err)
         {
