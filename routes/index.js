@@ -177,6 +177,8 @@ router.get('/questions/:id/answers', function(req, res, next) {
 
 router.post('/search', function(req, res, next) {
     var searchInfo = req.body;
+    console.log(searchInfo.limit);
+    console.log(searchInfo.timestamp);
     if (searchInfo.limit == undefined)
     {
         searchInfo.limit = 25;
@@ -197,6 +199,7 @@ router.post('/search', function(req, res, next) {
         }
         else
         {
+            console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
