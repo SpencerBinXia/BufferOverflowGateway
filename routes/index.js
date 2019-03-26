@@ -98,27 +98,45 @@ router.post('/questions/add', function(req, res, next) {
 });
 
 router.get('/questions/:id', function(req, res, next) {
-    request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
+    var getQues;
+    getQues.id = req.params.id;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/questions/add', form: req.params.id}, function(err, APIres, body){
         if (err)
         {
-            console.log("get question failed");
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
 
 router.post('/questions/:id/answers/add', function(req, res, next) {
-    request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
+    if (req.session.username == undefined)
+    {
+        res.send({status: "ERROR", error: "Can't add answer with no logged in user"});
+        return;
+    }
+    var ansFields = req.body;
+    ansFields.username = req.session.username;
+    ansFields.id = req.params.id;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/answers/add', form: ansFields}, function(err, APIres, body){
         if (err)
         {
-            console.log("add ques answer failed");
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
