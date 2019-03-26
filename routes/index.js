@@ -81,8 +81,14 @@ router.post('/questions/add', function(req, res, next) {
     console.log(quesFields.username);
     console.log(quesFields.tags);
     console.log(quesFields.media);
-    quesFields.tags = JSON.stringify(req.body.tags);
-    quesFields.media = JSON.stringify(req.body.media);
+    if (req.body.tags != undefined)
+    {
+        quesFields.tags = JSON.stringify(req.body.tags);
+    }
+    if (req.body.media != undefined)
+    {
+        quesFields.media = JSON.stringify(req.body.media);
+    }
     var headersOpt = {
         "content-type": "application/json"
     };
