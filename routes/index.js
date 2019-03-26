@@ -166,14 +166,28 @@ router.get('/questions/:id/answers', function(req, res, next) {
 });
 
 router.post('/search', function(req, res, next) {
-    request.post({url:'quesserv', form:req.body}, function(err, httpResponse, body){
+    var searchInfo = req.body;
+    if (searchInfo.limit == undefined)
+    {
+        searchInfo.limit = 25;
+    }
+    if (searchInfo.limit > 100)
+    {
+        res.send({status: "ERROR", error: "search limit cannot be greater than 100"});
+        return;
+    }
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/search', form: searchInfo}, function(err, APIres, body){
         if (err)
         {
-            console.log("search failed");
+            res.send({status: "ERROR", error: "API request failed"});
+            return;
         }
         else
         {
-            console.log("status: " + httpResponse);
+            res.send(JSON.parse(APIres.body));
         }
     });
 });
