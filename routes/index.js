@@ -152,6 +152,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
         }
         else
         {
+            console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
