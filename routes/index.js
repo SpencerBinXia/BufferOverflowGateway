@@ -98,12 +98,20 @@ router.post('/questions/add', function(req, res, next) {
 });
 
 router.get('/questions/:id', function(req, res, next) {
-    var getQues;
+    var getQues = req.body;
     getQues.id = req.params.id;
+    if (req.session.username == undefined)
+    {
+        getQues.userid = req.ip;
+    }
+    else
+    {
+        getQues.userid = req.session.username;
+    }
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://localhost:6000/questions/add', form: req.params.id}, function(err, APIres, body){
+    request.get({headers: headersOpt, url:'http://localhost:6000/questions/get', form: getQues}, function(err, APIres, body){
         if (err)
         {
             res.send({status: "ERROR", error: "API request failed"});
