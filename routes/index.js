@@ -80,7 +80,9 @@ router.post('/questions/add', function(req, res, next) {
     quesFields.username = req.session.username;
     console.log(quesFields.username);
     console.log(quesFields.tags);
+    console.log(quesFields.media);
     quesFields.tags = JSON.stringify(req.body.tags);
+    quesFields.media = JSON.stringify(req.body.media);
     var headersOpt = {
         "content-type": "application/json"
     };
@@ -125,7 +127,7 @@ router.get('/questions/:id', function(req, res, next) {
 });
 
 router.post('/questions/:id/answers/add', function(req, res, next) {
-    if (req.session.username == undefined)
+    if (req.session.username == undefined || req.session.username == null)
     {
         res.send({status: "error", error: "Can't add answer with no logged in user"});
         return;
