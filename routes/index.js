@@ -200,7 +200,7 @@ router.post('/search', function(req, res, next) {
         else
         {
             console.log(JSON.parse(APIres.body));
-            res.send({status: "OK", questions: APIres.body});
+            res.send({status: "OK", questions: JSON.parse(APIres.body)});
         }
     });
 });
