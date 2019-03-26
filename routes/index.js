@@ -11,7 +11,7 @@ router.post('/adduser', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/adduser', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -25,7 +25,7 @@ router.post('/login', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/login', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -45,7 +45,7 @@ router.post('/logout', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/logout', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -60,7 +60,7 @@ router.post('/verify', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/verify', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -89,7 +89,7 @@ router.post('/questions/add', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/questions/add', form: quesFields}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -116,7 +116,7 @@ router.get('/questions/:id', function(req, res, next) {
     request.get({headers: headersOpt, url:'http://152.44.33.64:6000/questions/get', form: getQues}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -141,7 +141,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/answers/add', form: ansFields}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -157,7 +157,7 @@ router.get('/questions/:id/answers', function(req, res, next) {
     request.get({url:'http://152.44.33.64:6000/answers/get', form: getAns}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
@@ -184,7 +184,7 @@ router.post('/search', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/search', form: searchInfo}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: "API request failed"});
+            res.send({status: "error", error: err});
             return;
         }
         else
