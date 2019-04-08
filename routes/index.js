@@ -70,6 +70,68 @@ router.post('/verify', function(req, res, next) {
     });
 });
 
+router.get('/user/:username', function(req, res, next) {
+    var getUser = req.body;
+    getUser.username = req.params.username;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.get({headers: headersOpt, url:'http://152.44.33.24:5000/getuser', form: getUser}, function(err, APIres, body){
+        if (err)
+        {
+            res.send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
+/* QUESTIONS */
+
+router.get('/user/:username/questions', function(req, res, next) {
+    var getUser = req.body;
+    getUser.username = req.params.username;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/questions', form: getUser}, function(err, APIres, body){
+        if (err)
+        {
+            res.send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
+router.get('/user/:username/answers', function(req, res, next) {
+    var getUser = req.body;
+    getUser.username = req.params.username;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/answers', form: getUser}, function(err, APIres, body){
+        if (err)
+        {
+            res.send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
 router.post('/questions/add', function(req, res, next) {
     if (req.session.username == undefined)
     {
@@ -128,6 +190,34 @@ router.get('/questions/:id', function(req, res, next) {
         else
         {
             console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
+router.delete('/questions/:id', function(req, res, next) {
+    var delQues = req.body;
+    delQues.id = req.params.id;
+    if (req.session.username == undefined)
+    {
+        res.status(400).send({status: "error", error: "No logged in user"});
+        return;
+    }
+    else
+    {
+        delQues.userid = req.session.username;
+    }
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.delete({headers: headersOpt, url:'http://152.44.33.64:6000/questions/delete', form: delQues}, function(err, APIres, body){
+        if (err)
+        {
+            res.status(400).send({status: "error", error: err});
+            return;
+        }
+        else
+        {
             res.send(JSON.parse(APIres.body));
         }
     });
