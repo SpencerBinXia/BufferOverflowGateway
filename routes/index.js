@@ -198,7 +198,7 @@ router.get('/questions/:id', function(req, res, next) {
 router.delete('/questions/:id', function(req, res, next) {
     var delQues = req.body;
     delQues.id = req.params.id;
-    if (req.session.username == undefined)
+    if (req.session.username === undefined)
     {
         res.status(400).send({status: "error", error: "No logged in user"});
         return;
