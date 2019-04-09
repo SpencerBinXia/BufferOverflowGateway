@@ -218,7 +218,15 @@ router.delete('/questions/:id', function(req, res, next) {
         }
         else
         {
-            res.send(JSON.parse(APIres.body));
+            if (JSON.parse(APIres.body).status === "error")
+            {
+                res.status(400).send(JSON.parse(APIres.body));
+                return;
+            }
+            else
+            {
+                res.send(JSON.parse(APIres.body));
+            }
         }
     });
 });
@@ -290,7 +298,7 @@ router.post('/search', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
