@@ -4,7 +4,7 @@ const request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Buffer Overflow'});
+  res.render('index', { title: 'Buffer Overflow', name: req.session.username});
 });
 
 router.post('/adduser', function(req, res, next) {
