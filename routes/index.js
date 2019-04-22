@@ -11,7 +11,7 @@ router.post('/adduser', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/adduser', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -25,7 +25,7 @@ router.post('/login', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/login', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -39,13 +39,13 @@ router.post('/login', function(req, res, next) {
 router.post('/logout', function(req, res, next) {
     if (req.session.username == undefined)
     {
-        res.send({status: "error", error: "Can't logout with no user in session"});
+        res.status(400).send({status: "error", error: "Can't logout with no user in session"});
         return;
     }
     request.post({url:'http://152.44.33.24:5000/logout', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -60,7 +60,7 @@ router.post('/verify', function(req, res, next) {
     request.post({url:'http://152.44.33.24:5000/verify', form:req.body}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -79,7 +79,7 @@ router.get('/user/:username', function(req, res, next) {
     request.get({headers: headersOpt, url:'http://152.44.33.24:5000/getuser', form: getUser}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -101,7 +101,7 @@ router.get('/user/:username/questions', function(req, res, next) {
     request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/questions', form: getUser}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -121,7 +121,7 @@ router.get('/user/:username/answers', function(req, res, next) {
     request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/answers', form: getUser}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -135,7 +135,7 @@ router.get('/user/:username/answers', function(req, res, next) {
 router.post('/questions/add', function(req, res, next) {
     if (req.session.username == undefined)
     {
-        res.send({status: "error", error: "Can't add question with no logged in user"});
+        res.status(400).send({status: "error", error: "Can't add question with no logged in user"});
         return;
     }
     var quesFields = req.body;
@@ -157,7 +157,7 @@ router.post('/questions/add', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/questions/add', form: quesFields}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -184,7 +184,7 @@ router.get('/questions/:id', function(req, res, next) {
     request.get({headers: headersOpt, url:'http://152.44.33.64:6000/questions/get', form: getQues}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -233,7 +233,7 @@ router.delete('/questions/:id', function(req, res, next) {
 
 router.post('/questions/:id/answers/add', function(req, res, next) {
     if (req.session.username == undefined || req.session.username == null)
-    {
+    {c
         res.send({status: "error", error: "Can't add answer with no logged in user"});
         return;
     }
@@ -246,7 +246,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/answers/add', form: ansFields}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -263,7 +263,7 @@ router.get('/questions/:id/answers', function(req, res, next) {
     request.get({url:'http://152.44.33.64:6000/answers/get', form: getAns}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
@@ -283,7 +283,7 @@ router.post('/search', function(req, res, next) {
     }
     if (searchInfo.limit > 100)
     {
-        res.send({status: "error", error: "search limit cannot be greater than 100"});
+        res.status(400).send({status: "error", error: "search limit cannot be greater than 100"});
         return;
     }
     console.log(searchInfo.limit);
@@ -293,7 +293,7 @@ router.post('/search', function(req, res, next) {
     request.post({headers: headersOpt, url:'http://152.44.33.64:6000/search', form: searchInfo}, function(err, APIres, body){
         if (err)
         {
-            res.send({status: "error", error: err});
+            res.status(400).send({status: "error", error: err});
             return;
         }
         else
