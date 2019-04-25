@@ -426,7 +426,10 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
     var contentType = req.headers['content-type'];
     console.log(contentType);
     var mediaID = req.session.username + "media" + sid.generate();
-    var mediaJSON = {mediaID: mediaID, username: req.session.username};
+    //var mediaJSON = {mediaID: mediaID, username: req.session.username};
+    var mediaJSON = req.body;
+    mediaJSON.mediaID = mediaID;
+    mediaJSON.username = req.session.username;
     var insertQuery = "INSERT INTO media (mediaID, content) VALUES (?,?)";
     var insertParams = [mediaID, req.file.buffer];
     client.execute(insertQuery, insertParams, { prepare: true }, function (err) {
