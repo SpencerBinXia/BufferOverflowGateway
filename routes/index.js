@@ -373,4 +373,30 @@ router.post('/answers/:id/upvote', function(req, res, next) {
     });
 });
 
+router.post("/answers/:id/accept", function (req, res, next){
+    if (req.session.username == undefined || req.session.username == null)
+    {
+        res.send({status: "error", error: "Can't upvote with no logged in user"});
+        return;
+    }
+    var ansAccFields = req.body;
+    ansAccFields.userid = req.session.username;
+    ansAccFields.id = req.params.id;
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/answers/accept', form: ansAccFields}, function(err, APIres, body){
+        if (err)
+        {
+            res.status(400).send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
 module.exports = router;
