@@ -446,7 +446,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
                 else
                 {
                     console.log(JSON.parse(APIres.body));
-                    res.send(JSON.parse(APIres.body));
+                    res.status(200).send(JSON.parse(APIres.body));
                 }
             });
         }
@@ -459,7 +459,7 @@ router.get("/media/:id", function (req, res, next){
         if (err){
             res.status(400).send({status: "error", error: err});
         }
-        res.status(200).send(result.rows[0].contents);
+        res.status(200).send({status: "OK", content: result.rows[0].contents});
     });
 });
 module.exports = router;
