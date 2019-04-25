@@ -233,13 +233,17 @@ router.delete('/questions/:id', function(req, res, next) {
 
 router.post('/questions/:id/answers/add', function(req, res, next) {
     if (req.session.username == undefined || req.session.username == null)
-    {c
+    {
         res.send({status: "error", error: "Can't add answer with no logged in user"});
         return;
     }
     var ansFields = req.body;
     ansFields.username = req.session.username;
     ansFields.id = req.params.id;
+    if (req.body.media != undefined)
+    {
+        ansFields.media = JSON.stringify(req.body.media);
+    }
     var headersOpt = {
         "content-type": "application/json"
     };
@@ -326,6 +330,36 @@ router.post('/questions/:id/upvote', function(req, res, next) {
         "content-type": "application/json"
     };
     request.post({headers: headersOpt, url:'http://localhost:6000/questions/upvote', form: quesUpFields}, function(err, APIres, body){
+        if (err)
+        {
+            res.status(400).send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            console.log(JSON.parse(APIres.body));
+            res.send(JSON.parse(APIres.body));
+        }
+    });
+});
+
+router.post('/answers/:id/upvote', function(req, res, next) {
+    if (req.session.username == undefined || req.session.username == null)
+    {
+        res.send({status: "error", error: "Can't upvote with no logged in user"});
+        return;
+    }
+    var ansUpFields = req.body;
+    ansUpFields.userid = req.session.username;
+    ansUpFields.id = req.params.id;
+    if (ansUpFields.upvote == undefined)
+    {
+        ansUpFields.upvote = true;
+    }
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    request.post({headers: headersOpt, url:'http://localhost:6000/answers/upvote', form: ansUpFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
