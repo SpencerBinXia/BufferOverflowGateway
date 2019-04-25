@@ -1,6 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const request = require('request');
+var cassandra = require('cassandra-driver');
+const sid = require('shortid');
+var multer = require('multer');
+var upload = multer();
+
+const client = new cassandra.Client({
+    contactPoints: ['152.44.32.121'],
+    localDataCenter: 'datacenter1',
+    keyspace: 'media'
+});
+
+client.connect(function (err) {
+    if (err)
+        console.log(err);
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -376,7 +391,7 @@ router.post('/answers/:id/upvote', function(req, res, next) {
 router.post("/answers/:id/accept", function (req, res, next){
     if (req.session.username == undefined || req.session.username == null)
     {
-        res.send({status: "error", error: "Can't upvote with no logged in user"});
+        res.send({status: "error", error: "Can't accept answer with no logged in user"});
         return;
     }
     var ansAccFields = req.body;
@@ -399,4 +414,52 @@ router.post("/answers/:id/accept", function (req, res, next){
     });
 });
 
+router.post("/addmedia", upload.single('content'), function (req, res, next){
+    if (req.session.username == undefined || req.session.username == null)
+    {
+        res.send({status: "error", error: "Can't add media with no logged in user"});
+        return;
+    }
+    var headersOpt = {
+        "content-type": "application/json"
+    };
+    var contentType = req.headers['content-type'];
+    console.log(contentType);
+    var mediaID = req.session.username + "media" + sid.generate();
+    var insertQuery = "INSERT INTO media (mediaID, content) VALUES (?,?)";
+    var insertParams = [mediaID, req.file.buffer];
+    client.execute(insertQuery, insertParams, { prepare: true }, function (err) {
+        if (err){
+            console.log(err);
+            res.status(400).send({status: "error", error: err});
+            return;
+        }
+        else
+        {
+            //Inserted in the cluster
+            request.post({headers: headersOpt, url:'http://localhost:6000/indexMedia', form: {mediaID: mediaID}}, function(err, APIres, body){
+                if (err)
+                {
+                    res.status(400).send({status: "error", error: err});
+                    return;
+                }
+                else
+                {
+                    console.log(JSON.parse(APIres.body));
+                    res.send(JSON.parse(APIres.body));
+                }
+            });
+        }
+    });
+});
+
+router.get("/media/:id", function (req, res, next){
+    var selectQuery = "SELECT * FROM media WHERE mediaID='" + req.params.id + "'";
+    client.execute(selectQuery, function (err, result){
+        if (err){
+            res.status(400).send({status: "error", error: err});
+        }
+        res.status(200).send(result.rows[0].contents);
+    });
+});
 module.exports = router;
