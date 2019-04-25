@@ -426,10 +426,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
     var contentType = req.headers['content-type'];
     console.log(contentType);
     var mediaID = req.session.username + "media" + sid.generate();
-    //var mediaJSON = {mediaID: mediaID, username: req.session.username};
-    var mediaJSON = req.body;
-    mediaJSON.mediaID = mediaID;
-    mediaJSON.username = req.session.username;
+    var mediaJSON = {mediaID: mediaID, username: req.session.username};
     var insertQuery = "INSERT INTO media (mediaID, content) VALUES (?,?)";
     var insertParams = [mediaID, req.file.buffer];
     client.execute(insertQuery, insertParams, { prepare: true }, function (err) {
@@ -441,7 +438,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
         else
         {
             //Inserted in the cluster
-            request.post({headers: headersOpt, url:'http://152.44.33.64:6000/indexMedia', form: {mediaID: mediaJSON}}, function(err, APIres, body){
+            request.post({headers: headersOpt, url:'http://152.44.33.64:6000/indexMedia', form: mediaJSON}, function(err, APIres, body){
                 if (err)
                 {
                     res.status(400).send({status: "error", error: err});
