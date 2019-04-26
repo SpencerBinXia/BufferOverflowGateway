@@ -5,7 +5,7 @@ var cassandra = require('cassandra-driver');
 const sid = require('shortid');
 var multer = require('multer');
 var upload = multer();
-var bullshitcounter = 0;
+
 const client = new cassandra.Client({
     contactPoints: ['152.44.32.121'],
     localDataCenter: 'datacenter1',
@@ -476,12 +476,6 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
 
 router.get("/media/:id", function (req, res, next){
     var selectQuery = "SELECT * FROM media WHERE mediaID='" + req.params.id + "'";
-    if (bullshitcounter = 2)
-    {
-        res.status(400).send({status: "error", error: "lol"});
-        bullshitcounter = 0;
-        return;
-    }
     client.execute(selectQuery, function (err, result){
         if (err){
             res.status(400).send({status: "error", error: err});
@@ -499,7 +493,6 @@ router.get("/media/:id", function (req, res, next){
             }
             catch (e) {
                 res.status(400).send({status: "error", error: "cassandra get error (async likely)"});
-                bullshitcounter++;
             }
         }
     });
