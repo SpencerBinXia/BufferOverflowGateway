@@ -240,7 +240,19 @@ router.delete('/questions/:id', function(req, res, next) {
             }
             else
             {
-                res.send(JSON.parse(APIres.body));
+                var mediaJSON = JSON.parse(APIres.body);
+                console.log(mediaJSON);
+                console.log(mediaJSON.medialist);
+                for (var i = 0;i < mediaJSON.medialist.length;i++)
+                {
+                    var deleteQuery = "DELETE FROM media WHERE mediaID='" + mediaJSON.medialist[i] + "'";
+                    client.execute(deleteQuery, function (err, result){
+                        if (err){
+                            res.status(400).send({status: "error", error: err});
+                        }
+                    });
+                }
+                res.status(200).send({status: "OK"});
             }
         }
     });
@@ -270,7 +282,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
+            console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
