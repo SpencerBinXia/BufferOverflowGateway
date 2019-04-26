@@ -305,6 +305,14 @@ router.post('/search', function(req, res, next) {
         res.status(400).send({status: "error", error: "search limit cannot be greater than 100"});
         return;
     }
+    if (searchInfo.sort_by == undefined)
+    {
+        searchInfo.sort_by = 'score';
+    }
+    if (searchInfo.tags != undefined)
+    {
+        searchInfo.tags = JSON.stringify(searchInfo.tags);
+    }
     console.log(searchInfo.limit);
     var headersOpt = {
         "content-type": "application/json"
