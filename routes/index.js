@@ -481,12 +481,23 @@ router.get("/media/:id", function (req, res, next){
             res.status(400).send({status: "error", error: err});
             return;
         }
-        try {
-            res.status(200).send({status: "OK", content: result.rows[0].contents});
-        }
-        catch(e)
+        else if (!result)
         {
-            res.status(400).send({status: "error", error: "cassandra get error (async likely)"});
+            res.status(400).send({status: "error", error: "No media found"});
+            return;
+        }
+        else
+        {
+            res.status(200).send({status: "OK", content: result.rows[0].contents});
+            return;
+            /*
+            try {
+                res.status(200).send({status: "OK", content: result.rows[0].contents});
+            }
+            catch (e) {
+                res.status(400).send({status: "error", error: "cassandra get error (async likely)"});
+            }
+            */
         }
     });
 });
