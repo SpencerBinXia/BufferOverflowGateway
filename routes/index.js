@@ -243,6 +243,7 @@ router.delete('/questions/:id', function(req, res, next) {
                 var mediaJSON = JSON.parse(APIres.body);
                 console.log(mediaJSON);
                 console.log(mediaJSON.medialist);
+                /*
                 for (var i = 0;i < mediaJSON.medialist.length;i++)
                 {
                     var deleteQuery = "DELETE FROM media WHERE mediaID='" + mediaJSON.medialist[i] + "'";
@@ -251,8 +252,15 @@ router.delete('/questions/:id', function(req, res, next) {
                             res.status(400).send({status: "error", error: err});
                         }
                     });
-                }
-                res.status(200).send({status: "OK"});
+                }*/
+                var truncateQuery = "TRUNCATE media;";
+                client.execute(truncateQuery, function (err){
+                    if (err){
+                        res.status(400).send({status: "error", error: err});
+                    }
+                    res.status(200).send({status: "OK"});
+                    return;
+                });
             }
         }
     });
