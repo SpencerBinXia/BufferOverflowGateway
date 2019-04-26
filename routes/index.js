@@ -31,7 +31,15 @@ router.post('/adduser', function(req, res, next) {
         }
         else
         {
-            res.send(JSON.parse(APIres.body));
+            var result = JSON.parse(APIres.body);
+            if (result.status == "error")
+            {
+                res.status(400).send({status: "error", error: "invalid adduser"});
+            }
+            else
+            {
+                res.status(200).send({status: "OK"})
+            }
         }
     });
 });
