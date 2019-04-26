@@ -479,8 +479,15 @@ router.get("/media/:id", function (req, res, next){
     client.execute(selectQuery, function (err, result){
         if (err){
             res.status(400).send({status: "error", error: err});
+            return;
+        }
+        if (result.rows[0].contents == undefined)
+        {
+            res.status(400).send({status: "error", error: "undefined row retrieved. synchronization issue?"});
+            return;
         }
         res.status(200).send({status: "OK", content: result.rows[0].contents});
+        return;
     });
 });
 module.exports = router;
