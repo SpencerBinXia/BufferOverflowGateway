@@ -99,7 +99,7 @@ router.get('/user/:username', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -121,7 +121,7 @@ router.get('/user/:username/questions', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -141,7 +141,7 @@ router.get('/user/:username/answers', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -155,9 +155,9 @@ router.post('/questions/add', function(req, res, next) {
     }
     var quesFields = req.body;
     quesFields.username = req.session.username;
-    console.log(quesFields.username);
-    console.log(quesFields.tags);
-    console.log(quesFields.media);
+   // console.log(quesFields.username);
+    //console.log(quesFields.tags);
+    //console.log(quesFields.media);
     if (req.body.tags != undefined)
     {
         quesFields.tags = JSON.stringify(req.body.tags);
@@ -204,7 +204,7 @@ router.get('/questions/:id', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -270,7 +270,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+            //console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -294,8 +294,8 @@ router.get('/questions/:id/answers', function(req, res, next) {
 
 router.post('/search', function(req, res, next) {
     var searchInfo = req.body;
-    console.log(searchInfo.limit);
-    console.log(searchInfo.timestamp);
+    //console.log(searchInfo.limit);
+    //console.log(searchInfo.timestamp);
     if (searchInfo.limit == undefined)
     {
         searchInfo.limit = 25;
@@ -360,7 +360,7 @@ router.post('/questions/:id/upvote', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+           // console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -390,7 +390,7 @@ router.post('/answers/:id/upvote', function(req, res, next) {
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+           // console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -416,7 +416,7 @@ router.post("/answers/:id/accept", function (req, res, next){
         }
         else
         {
-            console.log(JSON.parse(APIres.body));
+           // console.log(JSON.parse(APIres.body));
             res.send(JSON.parse(APIres.body));
         }
     });
@@ -432,14 +432,14 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
         "content-type": "application/json"
     };
     var contentType = req.headers['content-type'];
-    console.log(contentType);
+   // console.log(contentType);
     var mediaID = req.session.username + "media" + sid.generate();
     var mediaJSON = {mediaID: mediaID, username: req.session.username};
     var insertQuery = "INSERT INTO media (mediaID, content) VALUES (?,?)";
     var insertParams = [mediaID, req.file.buffer];
     client.execute(insertQuery, insertParams, { prepare: true }, function (err) {
         if (err){
-            console.log(err);
+           // console.log(err);
             res.status(400).send({status: "error", error: err});
             return;
         }
@@ -454,7 +454,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
                 }
                 else
                 {
-                    console.log(JSON.parse(APIres.body));
+                  //  console.log(JSON.parse(APIres.body));
                     res.status(200).send(JSON.parse(APIres.body));
                 }
             });
