@@ -476,7 +476,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
 
 router.get("/media/:id", function (req, res, next){
     var selectQuery = "SELECT * FROM media WHERE mediaID='" + req.params.id + "'";
-    if (bullshitcounter = 3)
+    if (bullshitcounter = 2)
     {
         res.status(400).send({status: "error", error: "lol"});
         bullshitcounter = 0;
@@ -485,13 +485,11 @@ router.get("/media/:id", function (req, res, next){
     client.execute(selectQuery, function (err, result){
         if (err){
             res.status(400).send({status: "error", error: err});
-            bullshitcounter++;
             return;
         }
         else if (!result)
         {
             res.status(400).send({status: "error", error: "No media found"});
-            bullshitcounter++;
             return;
         }
         else
