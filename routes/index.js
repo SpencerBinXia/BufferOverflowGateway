@@ -45,8 +45,16 @@ router.post('/login', function(req, res, next) {
         }
         else
         {
-            req.session.username = req.body.username;
-            res.send(JSON.parse(APIres.body));
+            var result = JSON.parse(APIres.body);
+            if (result.status == "error")
+            {
+                res.status(400).send({status: "error", error: "invalid user"});
+            }
+            else
+            {
+                req.session.username = req.body.username;
+                res.status(200).send({status: "OK"})
+            }
         }
     });
 });
