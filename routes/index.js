@@ -481,13 +481,13 @@ router.get("/media/:id", function (req, res, next){
             res.status(400).send({status: "error", error: err});
             return;
         }
-        if (result.rows[0].contents == undefined)
-        {
-            res.status(400).send({status: "error", error: "undefined row retrieved. synchronization issue?"});
-            return;
+        try {
+            res.status(200).send({status: "OK", content: result.rows[0].contents});
         }
-        res.status(200).send({status: "OK", content: result.rows[0].contents});
-        return;
+        catch(e)
+        {
+            res.status(400).send({status: "error", error: "cassandra get error (async likely)"});
+        }
     });
 });
 module.exports = router;
