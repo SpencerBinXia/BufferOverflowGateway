@@ -488,16 +488,12 @@ router.get("/media/:id", function (req, res, next){
         }
         else
         {
-            res.status(200).send({status: "OK", content: result.rows[0].contents});
-            return;
-            /*
             try {
                 res.status(200).send({status: "OK", content: result.rows[0].contents});
             }
             catch (e) {
                 res.status(400).send({status: "error", error: "cassandra get error (async likely)"});
             }
-            */
         }
     });
 });
