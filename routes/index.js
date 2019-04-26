@@ -34,7 +34,7 @@ router.post('/adduser', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -56,7 +56,7 @@ router.post('/login', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -99,7 +99,7 @@ router.post('/verify', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -127,7 +127,7 @@ router.get('/user/:username', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -157,7 +157,7 @@ router.get('/user/:username/questions', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -185,7 +185,7 @@ router.get('/user/:username/answers', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -228,7 +228,7 @@ router.post('/questions/add', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -264,7 +264,7 @@ router.get('/questions/:id', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -358,7 +358,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -382,7 +382,7 @@ router.get('/questions/:id/answers', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -429,7 +429,7 @@ router.post('/search', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -472,7 +472,7 @@ router.post('/questions/:id/upvote', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -510,7 +510,7 @@ router.post('/answers/:id/upvote', function(req, res, next) {
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
@@ -544,7 +544,7 @@ router.post("/answers/:id/accept", function (req, res, next){
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
-                res.status(400).send({status: "error", error: result.err});
+                res.status(400).send({status: "error", error: result.error});
             }
             else
             {
