@@ -316,6 +316,8 @@ router.delete('/questions/:id', function(req, res, next) {
                         }
                     });
                 }
+                res.status(200).send({status: "OK"});
+                return;
                 /*
                 var truncateQuery = "TRUNCATE media;";
                 client.execute(truncateQuery, function (err){
