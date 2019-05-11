@@ -7,7 +7,7 @@ var multer = require('multer');
 var upload = multer();
 
 const client = new cassandra.Client({
-    contactPoints: ['152.44.34.243'],
+    contactPoints: ['152.44.32.82'],
     localDataCenter: 'datacenter1',
     keyspace: 'media'
 });
