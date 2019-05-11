@@ -7,7 +7,7 @@ var multer = require('multer');
 var upload = multer();
 
 const client = new cassandra.Client({
-    contactPoints: ['152.44.32.121'],
+    contactPoints: ['152.44.34.243'],
     localDataCenter: 'datacenter1',
     keyspace: 'media'
 });
@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/adduser', function(req, res, next) {
-    request.post({url:'http://152.44.33.24:5000/adduser', form:req.body}, function(err, APIres, body){
+    request.post({url:'http://209.50.54.182:5000/adduser', form:req.body}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -45,7 +45,7 @@ router.post('/adduser', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    request.post({url:'http://152.44.33.24:5000/login', form:req.body}, function(err, APIres, body){
+    request.post({url:'http://209.50.54.182:5000/login', form:req.body}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -73,7 +73,7 @@ router.post('/logout', function(req, res, next) {
         res.status(400).send({status: "error", error: "Can't logout with no user in session"});
         return;
     }
-    request.post({url:'http://152.44.33.24:5000/logout', form:req.body}, function(err, APIres, body){
+    request.post({url:'http://209.50.54.182:5000/logout', form:req.body}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -88,7 +88,7 @@ router.post('/logout', function(req, res, next) {
 });
 
 router.post('/verify', function(req, res, next) {
-    request.post({url:'http://152.44.33.24:5000/verify', form:req.body}, function(err, APIres, body){
+    request.post({url:'http://209.50.54.182:5000/verify', form:req.body}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -115,7 +115,7 @@ router.get('/user/:username', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.get({headers: headersOpt, url:'http://152.44.33.24:5000/getuser', form: getUser}, function(err, APIres, body){
+    request.get({headers: headersOpt, url:'http://209.50.54.182:5000/getuser', form: getUser}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -145,7 +145,7 @@ router.get('/user/:username/questions', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/questions', form: getUser}, function(err, APIres, body){
+    request.get({headers: headersOpt, url:'http://209.50.54.165:6000/user/questions', form: getUser}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -173,7 +173,7 @@ router.get('/user/:username/answers', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.get({headers: headersOpt, url:'http://152.44.33.64:6000/user/answers', form: getUser}, function(err, APIres, body){
+    request.get({headers: headersOpt, url:'http://209.50.54.165:6000/user/answers', form: getUser}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -217,7 +217,7 @@ router.post('/questions/add', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/questions/add', form: quesFields}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/questions/add', form: quesFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -252,7 +252,7 @@ router.get('/questions/:id', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.get({headers: headersOpt, url:'http://152.44.33.64:6000/questions/get', form: getQues}, function(err, APIres, body){
+    request.get({headers: headersOpt, url:'http://209.50.54.165:6000/questions/get', form: getQues}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -289,7 +289,7 @@ router.delete('/questions/:id', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.delete({headers: headersOpt, url:'http://152.44.33.64:6000/questions/delete', form: delQues}, function(err, APIres, body){
+    request.delete({headers: headersOpt, url:'http://209.50.54.165:6000/questions/delete', form: delQues}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -307,7 +307,6 @@ router.delete('/questions/:id', function(req, res, next) {
                 var mediaJSON = JSON.parse(APIres.body);
                 console.log(mediaJSON);
                 console.log(mediaJSON.medialist);
-                /*
                 for (var i = 0;i < mediaJSON.medialist.length;i++)
                 {
                     var deleteQuery = "DELETE FROM media WHERE mediaID='" + mediaJSON.medialist[i] + "'";
@@ -316,7 +315,8 @@ router.delete('/questions/:id', function(req, res, next) {
                             res.status(400).send({status: "error", error: err});
                         }
                     });
-                }*/
+                }
+                /*
                 var truncateQuery = "TRUNCATE media;";
                 client.execute(truncateQuery, function (err){
                     if (err){
@@ -325,6 +325,7 @@ router.delete('/questions/:id', function(req, res, next) {
                     res.status(200).send({status: "OK"});
                     return;
                 });
+                */
             }
         }
     });
@@ -346,7 +347,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/answers/add', form: ansFields}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/answers/add', form: ansFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -371,7 +372,7 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
 router.get('/questions/:id/answers', function(req, res, next) {
     var getAns = req.body;
     getAns.id = req.params.id;
-    request.get({url:'http://152.44.33.64:6000/answers/get', form: getAns}, function(err, APIres, body){
+    request.get({url:'http://209.50.54.165:6000/answers/get', form: getAns}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -417,7 +418,7 @@ router.post('/search', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/search', form: searchInfo}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/search', form: searchInfo}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -460,7 +461,7 @@ router.post('/questions/:id/upvote', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/questions/upvote', form: quesUpFields}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/questions/upvote', form: quesUpFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -498,7 +499,7 @@ router.post('/answers/:id/upvote', function(req, res, next) {
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/answers/upvote', form: ansUpFields}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/answers/upvote', form: ansUpFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -532,7 +533,7 @@ router.post("/answers/:id/accept", function (req, res, next){
     var headersOpt = {
         "content-type": "application/json"
     };
-    request.post({headers: headersOpt, url:'http://152.44.33.64:6000/answers/accept', form: ansAccFields}, function(err, APIres, body){
+    request.post({headers: headersOpt, url:'http://209.50.54.165:6000/answers/accept', form: ansAccFields}, function(err, APIres, body){
         if (err)
         {
             res.status(400).send({status: "error", error: err});
@@ -578,7 +579,7 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
         else
         {
             //Inserted in the cluster
-            request.post({headers: headersOpt, url:'http://152.44.33.64:6000/indexMedia', form: mediaJSON}, function(err, APIres, body){
+            request.post({headers: headersOpt, url:'http://209.50.54.165:6000/indexMedia', form: mediaJSON}, function(err, APIres, body){
                 if (err)
                 {
                     res.status(400).send({status: "error", error: err});
