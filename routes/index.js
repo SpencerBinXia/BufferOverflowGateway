@@ -305,8 +305,8 @@ router.delete('/questions/:id', function(req, res, next) {
             else
             {
                 var mediaJSON = JSON.parse(APIres.body);
-                console.log(mediaJSON);
-                console.log(mediaJSON.medialist);
+                //console.log(mediaJSON);
+                //console.log(mediaJSON.medialist);
                 for (var i = 0;i < mediaJSON.medialist.length;i++)
                 {
                     var deleteQuery = "DELETE FROM media WHERE mediaID='" + mediaJSON.medialist[i] + "'";
@@ -416,7 +416,7 @@ router.post('/search', function(req, res, next) {
     {
         searchInfo.tags = JSON.stringify(searchInfo.tags);
     }
-    console.log(searchInfo.limit);
+    //console.log(searchInfo.limit);
     var headersOpt = {
         "content-type": "application/json"
     };
@@ -449,17 +449,19 @@ router.post('/questions/:id/upvote', function(req, res, next) {
         return;
     }
     var quesUpFields = req.body;
+    /*
     console.log(req.body);
     console.log(quesUpFields);
     console.log(quesUpFields.upvote);
+    */
     quesUpFields.userid = req.session.username;
     quesUpFields.id = req.params.id;
-    console.log(quesUpFields.upvote);
+    //console.log(quesUpFields.upvote);
     if (quesUpFields.upvote == undefined)
     {
         quesUpFields.upvote = true;
     }
-    console.log(quesUpFields.upvote);
+    //console.log(quesUpFields.upvote);
     var headersOpt = {
         "content-type": "application/json"
     };
