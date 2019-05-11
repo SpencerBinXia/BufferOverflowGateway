@@ -16,7 +16,7 @@ app.set('view engine', 'hbs');
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://152.44.40.92:27017/BOSessionDB");
+mongoose.connect("mongodb://152.44.42.179:27017/BOSessionDB");
 const db = mongoose.connection;
 
 app.use(logger('dev'));
