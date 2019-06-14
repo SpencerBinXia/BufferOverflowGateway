@@ -123,7 +123,6 @@ router.get('/user/:username', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -153,7 +152,6 @@ router.get('/user/:username/questions', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -181,7 +179,6 @@ router.get('/user/:username/answers', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -203,9 +200,6 @@ router.post('/questions/add', function(req, res, next) {
     }
     var quesFields = req.body;
     quesFields.username = req.session.username;
-   // console.log(quesFields.username);
-    //console.log(quesFields.tags);
-    //console.log(quesFields.media);
     if (req.body.tags != undefined)
     {
         quesFields.tags = JSON.stringify(req.body.tags);
@@ -260,7 +254,6 @@ router.get('/questions/:id', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -305,8 +298,6 @@ router.delete('/questions/:id', function(req, res, next) {
             else
             {
                 var mediaJSON = JSON.parse(APIres.body);
-                //console.log(mediaJSON);
-                //console.log(mediaJSON.medialist);
                 for (var i = 0;i < mediaJSON.medialist.length;i++)
                 {
                     var deleteQuery = "DELETE FROM media WHERE mediaID='" + mediaJSON.medialist[i] + "'";
@@ -318,16 +309,6 @@ router.delete('/questions/:id', function(req, res, next) {
                 }
                 res.status(200).send({status: "OK"});
                 return;
-                /*
-                var truncateQuery = "TRUNCATE media;";
-                client.execute(truncateQuery, function (err){
-                    if (err){
-                        res.status(400).send({status: "error", error: err});
-                    }
-                    res.status(200).send({status: "OK"});
-                    return;
-                });
-                */
             }
         }
     });
@@ -357,7 +338,6 @@ router.post('/questions/:id/answers/add', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -397,8 +377,6 @@ router.get('/questions/:id/answers', function(req, res, next) {
 
 router.post('/search', function(req, res, next) {
     var searchInfo = req.body;
-    //console.log(searchInfo.limit);
-    //console.log(searchInfo.timestamp);
     if (searchInfo.limit == undefined)
     {
         searchInfo.limit = 25;
@@ -416,7 +394,6 @@ router.post('/search', function(req, res, next) {
     {
         searchInfo.tags = JSON.stringify(searchInfo.tags);
     }
-    //console.log(searchInfo.limit);
     var headersOpt = {
         "content-type": "application/json"
     };
@@ -428,7 +405,6 @@ router.post('/search', function(req, res, next) {
         }
         else
         {
-            //console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -449,19 +425,12 @@ router.post('/questions/:id/upvote', function(req, res, next) {
         return;
     }
     var quesUpFields = req.body;
-    /*
-    console.log(req.body);
-    console.log(quesUpFields);
-    console.log(quesUpFields.upvote);
-    */
     quesUpFields.userid = req.session.username;
     quesUpFields.id = req.params.id;
-    //console.log(quesUpFields.upvote);
     if (quesUpFields.upvote == undefined)
     {
         quesUpFields.upvote = true;
     }
-    //console.log(quesUpFields.upvote);
     var headersOpt = {
         "content-type": "application/json"
     };
@@ -473,7 +442,6 @@ router.post('/questions/:id/upvote', function(req, res, next) {
         }
         else
         {
-           // console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -511,7 +479,6 @@ router.post('/answers/:id/upvote', function(req, res, next) {
         }
         else
         {
-           // console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -545,7 +512,6 @@ router.post("/answers/:id/accept", function (req, res, next){
         }
         else
         {
-           // console.log(JSON.parse(APIres.body));
             var result = JSON.parse(APIres.body);
             if (result.status == "error")
             {
@@ -569,7 +535,6 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
         "content-type": "application/json"
     };
     var contentType = req.headers['content-type'];
-   // console.log(contentType);
     var mediaID = req.session.username + "media" + sid.generate();
     var mediaJSON = {mediaID: mediaID, username: req.session.username};
     var insertQuery = "INSERT INTO media (mediaID, content) VALUES (?,?)";
@@ -591,7 +556,6 @@ router.post("/addmedia", upload.single('content'), function (req, res, next){
                 }
                 else
                 {
-                  //  console.log(JSON.parse(APIres.body));
                     res.status(200).send(JSON.parse(APIres.body));
                 }
             });
