@@ -1,6 +1,6 @@
 # BufferOverflow
 
-A Stack Overflow clone deployed across 12 UpCloud server instances, capable of handling 200k requests by 1k concurrent users with <250ms latency at 95% Quality of Service. Application architecture is described below.
+A Stack Overflow clone deployed across 12 UpCloud server instances, capable of handling 200k requests by 1k concurrent users with <250ms latency for 95% of requests. Application architecture is described below.
 
 **Node.js Instances:**
 
