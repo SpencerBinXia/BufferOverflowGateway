@@ -4,7 +4,7 @@ A Stack Overflow clone deployed across 12 UpCloud server instances, capable of h
 
 **Node.js Instances:**
 
-All Node.js backend instances with multiple vCPUs are running in Cluster Mode with pm2.
+All Node.js backend instances with multiple vCPUs are running in pm2 Cluster Mode.
 
 API Gateway Service - 2 vCPUs, 4 GB RAM. Contains a MongoDB database for session storage. <br/>
 Questions Service - 4 vCPUs, 4 GB RAM. Contains the Mongos routing service. <br/>
